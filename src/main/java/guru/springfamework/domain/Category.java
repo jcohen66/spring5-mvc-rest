@@ -1,5 +1,6 @@
 package guru.springfamework.domain;
 
+
 import lombok.Data;
 
 import javax.persistence.Entity;
