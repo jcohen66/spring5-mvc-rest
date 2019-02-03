@@ -30,6 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void setCustomerMapper(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
+
     @Autowired
     public void setCustomerRepository(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -40,9 +41,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll()
                 .stream()
                 .map(customer -> {
-                                CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                                customerDTO.setCustomerUrl(CustomerController.BASE_URL + customer.getId());
-                                return customerDTO;
+                    CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+                    customerDTO.setCustomerUrl(CustomerController.BASE_URL + customer.getId());
+                    return customerDTO;
                 })
                 .collect(Collectors.toList());
     }
@@ -51,12 +52,14 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerById(Long id) {
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDTO)
-                .orElseThrow(RuntimeException::new);  // todo implement better exception handling
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
     public CustomerDTO getCustomerByFirstnameAndLastname(String firstname, String lastname) {
-        return customerMapper.customerToCustomerDTO(customerRepository.findByFirstnameAndLastname(firstname, lastname));
+        return customerRepository.findByFirstnameAndLastname(firstname, lastname)
+                .map(customerMapper::customerToCustomerDTO)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -94,11 +97,11 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
         return customerRepository.findById(id).map(customer -> {
 
-            if(customerDTO.getFirstname() != null){
+            if (customerDTO.getFirstname() != null) {
                 customer.setFirstname(customerDTO.getFirstname());
             }
 
-            if(customerDTO.getLastname() != null){
+            if (customerDTO.getLastname() != null) {
                 customer.setLastname(customerDTO.getLastname());
             }
 
@@ -108,7 +111,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             return returnDto;
 
-        }).orElseThrow(RuntimeException::new); //todo implement better exception handling;
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
