@@ -2,8 +2,10 @@ package guru.springfamework.bootstrap;
 
 import guru.springfamework.domain.Category;
 import guru.springfamework.domain.Customer;
+import guru.springfamework.domain.Vendor;
 import guru.springfamework.repositories.CategoryRepository;
 import guru.springfamework.repositories.CustomerRepository;
+import guru.springfamework.repositories.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,18 +14,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bootstrap  implements CommandLineRunner {
 
-    private CategoryRepository categoryRepository;
-    private CustomerRepository customerRepository;
+    private final CategoryRepository categoryRepository;
+    private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         loadFruits();
         loadCustomers();
+        loadVendors();
     }
 
     private void loadFruits() {
@@ -77,6 +82,21 @@ public class Bootstrap  implements CommandLineRunner {
         customerRepository.save(customer3);
 
         log.info("Customer data loaded: " + customerRepository.count());
+
+    }
+
+    private void loadVendors() {
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Bucky's Farmer's Market");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Acme Supermarket");
+
+        vendorRepository.save(vendor1);
+        vendorRepository.save(vendor2);
+
+        log.info("Vendor data loaded: " + vendorRepository.count());
+
 
     }
 
