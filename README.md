@@ -7,11 +7,13 @@ You can learn about my Spring Framework 5 Online course [here.](http://courses.s
 
 
 ## Swagger Docs
+
 Show the Swagger UI
 ````
 http://localhost:8080/swagger-ui.html
 ````
+
 Show the JSON
 ````
-http://localhost:8080/api-docs
+http://localhost:8080/v2/api-docs
 ````

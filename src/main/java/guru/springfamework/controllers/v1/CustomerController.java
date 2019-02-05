@@ -31,6 +31,7 @@ public class CustomerController {
         return new CustomerListDTO(customerService.getAllCustomers());
     }
 
+    @ApiOperation(value = "This will look up a customer by Id.")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomerByName(@PathVariable("id") Long id) {
@@ -38,6 +39,7 @@ public class CustomerController {
         return customerService.getCustomerById(Long.valueOf(id));
     }
 
+    @ApiOperation(value = "This will look up a customer by firstname and lastname.")
     @GetMapping("/{firstname}/{lastname}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomerByFirstAndLastName(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname) {
@@ -46,24 +48,28 @@ public class CustomerController {
 
     }
 
+    @ApiOperation(value = "This will create a new customer.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO createNewCustomer(@RequestBody CustomerDTO customerDTO){
         return customerService.createNewCustomer(customerDTO);
     }
 
+    @ApiOperation(value = "This will update a customer by Id.")
     @PutMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
         return customerService.saveCustomerByDTO(id, customerDTO);
     }
 
+    @ApiOperation(value = "This will update a customer property by Id.")
     @PatchMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO patchCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
         return customerService.patchCustomer(id, customerDTO);
     }
 
+    @ApiOperation(value = "This will delete a customer by Id.")
     @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomer(@PathVariable Long id){

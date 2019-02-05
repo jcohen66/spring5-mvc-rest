@@ -51,7 +51,7 @@ public class VendorController {
         return vendorService.saveVendorByDTO(id, vendorDTO);
     }
 
-    @ApiOperation(value = "Patch a vendor by Id.")
+    @ApiOperation(value = "Update a vendor property by Id.")
     @PatchMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public VendorDTO patchVendor(@PathVariable Long id, @RequestBody VendorDTO vendorDTO){
